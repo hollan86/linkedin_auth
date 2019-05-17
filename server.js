@@ -10,10 +10,6 @@ app.use(cors())
 // Serve only the static files form the dist directory
 app.use(express.static(__dirname + '/dist/LIauth'));
 
-app.get('/*', function(req,res) {
-    
-res.sendFile(path.join(__dirname+'/dist/LIauth/index.html'));
-});
 
 app.get('/auth/callback', function(req,res){
     var querystring = require('querystring');
@@ -57,6 +53,11 @@ app.get('/auth/callback', function(req,res){
 
 
 })
+
+app.get('/*', function(req,res) {
+    
+    res.sendFile(path.join(__dirname+'/dist/LIauth/index.html'));
+    });
 
 // app.get('/access/callback', function(req,res){
 //     console.log('access tokens: ',req.body);
