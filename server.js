@@ -30,7 +30,8 @@ app.get('/auth/callback', function(req,res){
     }
 
     var post_options = {
-        host: 'https://www.linkedin.com',
+        host: 'www.linkedin.com',
+        port: '443',
         path: '/oauth/v2/accessToken',
         method: 'POST',
         headers: {
