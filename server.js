@@ -34,8 +34,8 @@ app.get('/auth/callback', function(req,res){
         path: '/oauth/v2/accessToken',
         method: 'POST',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': Buffer.byteLength(post_data)
+            'Content-Type': 'application/x-www-form-urlencoded'//,
+            //'Content-Length': Buffer.byteLength(post_data)
         }
     };
 
