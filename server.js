@@ -31,12 +31,12 @@ app.get('/auth/callback', function(req,res){
 
     var post_options = {
         host: 'www.linkedin.com',
-        //port: '443',
+        port: '443',
         path: '/oauth/v2/accessToken',
         method: 'POST',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'//,
-            //'Content-Length': Buffer.byteLength(post_data)
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': Buffer.byteLength(querystring.stringify(post_data))
         }
     };
 
