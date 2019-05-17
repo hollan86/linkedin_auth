@@ -15,5 +15,52 @@ app.get('/*', function(req,res) {
 res.sendFile(path.join(__dirname+'/dist/LIauth/index.html'));
 });
 
+app.get('/auth/callback', function(req,res){
+    var querystring = require('querystring');
+    var http = require('http');
+    //var fs = require('fs');
+
+    var client_id = '';
+    var client_secret = '';
+    //var code = req.query.code;
+    var redirect_url = 'https%3A%2F%2Fhollan-linkedin.herokuapp.com%2Fauth%2Fcallback'
+    var post_data = {
+        'grant_type' : 'authorization_code',
+        'code': req.query.code,
+        'redirect_uri': redirect_url,
+          'client_id' : client_id,
+          'client_secret' : client_secret
+    }
+
+    var post_options = {
+        host: 'www.linkedin.com',
+        port: '80',
+        path: '/oauth/v2/accessToken',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': Buffer.byteLength(post_data)
+        }
+    };
+
+    // Set up the request
+    var post_req = http.request(post_options, function(res) {
+        res.setEncoding('utf8');
+        res.on('data', function (chunk) {
+            console.log('Response: ' + chunk);
+        });
+    });
+
+    // post the data
+    post_req.write(querystring.stringify(post_data));
+    post_req.end();
+
+
+})
+
+// app.get('/access/callback', function(req,res){
+//     console.log('access tokens: ',req.body);
+// });
+
 // Start the app by listening on the default Heroku port
 app.listen(process.env.PORT || 8080);
