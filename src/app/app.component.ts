@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
     //var data = {username: 'example'};
 
     fetch(url, {
-      //method: 'POST', // or 'PUT'
+      method: 'GET', // or 'PUT'
       //body: JSON.stringify(data), // data can be `string` or {object}!
       headers:{
         'Content-Type': 'application/json'
