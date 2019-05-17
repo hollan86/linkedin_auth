@@ -30,7 +30,7 @@ app.get('/auth/callback', function(req,res){
     }
 
     var post_options = {
-        host: 'www.linkedin.com',
+        host: 'https://www.linkedin.com',
         path: '/oauth/v2/accessToken',
         method: 'POST',
         headers: {
