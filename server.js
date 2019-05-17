@@ -16,8 +16,8 @@ app.get('/auth/callback', function(req,res){
     var http = require('http');
     //var fs = require('fs');
 
-    var client_id = '';
-    var client_secret = '';
+    var client_id = '86npi10cn6zkzn';
+    var client_secret = 'QMh1Xq6jVbU2Y494';
     //var code = req.query.code;
     var redirect_url = 'https%3A%2F%2Fhollan-linkedin.herokuapp.com%2Fauth%2Fcallback'
     var post_data = {
