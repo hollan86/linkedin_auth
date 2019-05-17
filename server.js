@@ -13,7 +13,7 @@ app.use(express.static(__dirname + '/dist/LIauth'));
 
 app.get('/auth/callback', function(req,res){
     var querystring = require('querystring');
-    var http = require('http');
+    var http = require('https');
     //var fs = require('fs');
 
     var client_id = '86npi10cn6zkzn';
@@ -31,7 +31,6 @@ app.get('/auth/callback', function(req,res){
 
     var post_options = {
         host: 'www.linkedin.com',
-        port: '443',
         path: '/oauth/v2/accessToken',
         method: 'POST',
         headers: {
