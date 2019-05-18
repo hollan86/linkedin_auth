@@ -3,6 +3,10 @@ const express = require('express');
 const path = require('path');
 var cors = require('cors')
 const url = require('url');
+var config = require('./config.js');
+
+
+var myurl = url.parse(config.redirect_url);
 
 const app = express();
 //cors allow all
@@ -17,23 +21,23 @@ app.use(function(req, res, next) {
 app.use(express.static(__dirname + '/dist/LIauth'));
 
 
-app.get('/auth/callback', function(req,res){
+app.get(myurl.pathname, function(req,res){
     console.log('Checking call back: ',req.query)
     var querystring = require('querystring');
     var http = require('https');
     //var fs = require('fs');
 
-    var client_id = '86npi10cn6zkzn';
-    var client_secret = 'QMh1Xq6jVbU2Y494';
+    //var client_id = '86npi10cn6zkzn';
+    //var client_secret = 'QMh1Xq6jVbU2Y494';
     //var code = req.query.code;
     //console.log('Authorization code: ', req.query);
-    var redirect_url = 'https://hollan-linkedin.herokuapp.com/auth/callback'
+    //var redirect_url = 'https://hollan-linkedin.herokuapp.com/auth/callback'
     var post_data = {
         'grant_type' : 'authorization_code',
         'code': req.query.code,
-        'redirect_uri': redirect_url,
-        'client_id' : client_id,
-        'client_secret' : client_secret
+        'redirect_uri': myurl.href,
+        'client_id' : config.client_id,
+        'client_secret' : config.client_secret
     }
 
     var post_options = {
@@ -91,11 +95,6 @@ app.get('/auth/callback', function(req,res){
             }).on("error", (err) => {
             console.log("Error: " + err.message);
             });
-            // res.json(JSON.parse(data));
-            // res.redirect(url.format({
-            //     pathname:"/profile",
-            //     query: JSON.parse(data)
-            //   }));
         })
     });
 
@@ -111,9 +110,6 @@ app.get('/*', function(req,res) {
     res.sendFile(path.join(__dirname+'/dist/LIauth/index.html'));
     });
 
-// app.get('/access/callback', function(req,res){
-//     console.log('access tokens: ',req.body);
-// });
 
 // Start the app by listening on the default Heroku port
 app.listen(process.env.PORT || 8080);
