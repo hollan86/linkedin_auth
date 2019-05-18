@@ -45,7 +45,7 @@ app.get('/auth/callback', function(req,res){
         resdata.setEncoding('utf8');
         resdata.on('data', function (chunk) {
             var tok = Object(chunk)
-            console.log('Response: ' + tok);
+            console.log('Response: ' + tok["access_token"]);
             // res.redirect('/profile')
             // res.json({
             //            "access_token": chunk.access_token,
