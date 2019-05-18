@@ -15,7 +15,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.route.queryParamMap.subscribe(queryParams => {
       this.token = queryParams.get("access_token");
-      this.all_data = queryParams.get("profile_data");
+      this.all_data = JSON.parse(queryParams.get("profile_data"));
 
       localStorage.setItem('access_token',this.token);
       console.log(this.all_data);

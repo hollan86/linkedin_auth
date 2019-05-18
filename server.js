@@ -78,7 +78,7 @@ app.get('/auth/callback', function(req,res){
                 var alldata = {
                     "access_token": data_parsed.access_token,
                     "expires_in": data_parsed.expires_in,
-                    "profile_data": JSON.parse(profdata)
+                    "profile_data": profdata
                 }
                 //console.log(JSON.parse(data).explanation);
                 res.redirect(url.format({
