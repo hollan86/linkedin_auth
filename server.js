@@ -45,7 +45,11 @@ app.get('/auth/callback', function(req,res){
         resdata.setEncoding('utf8');
         resdata.on('data', function (chunk) {
             console.log('Response: ' + chunk);
-            res.redirect('/profile')
+            //res.redirect('/profile')
+            res.json({
+                       "access_token": chunk.access_token,
+                       "expires_in": chunk.expires_in
+                     });
             // res.redirect(url.format({
             //     pathname:"/profile",
             //     query: {
@@ -62,6 +66,10 @@ app.get('/auth/callback', function(req,res){
 
 
 })
+
+// app.get('/access/callback', function(req,res){
+//     console.log('access tokens: ',req.body);
+// });
 
 app.get('/*', function(req,res) {
     
