@@ -15,24 +15,24 @@ export class ProfileComponent implements OnInit {
     this.route.queryParamMap.subscribe(queryParams => {
       this.token = queryParams.get("access_token")
       localStorage.setItem('access_token',this.token);
+      
     })
 
-    
+    /*
     var url = 'https://api.linkedin.com/v2/me';
     //var data = {username: 'example'};
 
     fetch(url, {
       method: 'GET', // or 'PUT'
-      mode: 'no-cors',
       //body: JSON.stringify(data), // data can be `string` or {object}!
       headers:{
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + this.token,
         'Connection': 'keep-alive'
       }
-    }).then(res => {return res.text()})
-    .then(response => console.log('Success:',response /*JSON.stringify(response)*/))
-    .catch(error => console.error('Error:', error));
+    }).then(res => res.json())
+    .then(response => console.log('Success:',JSON.stringify(response)))
+    .catch(error => console.error('Error:', error));*/
   }
 
 }

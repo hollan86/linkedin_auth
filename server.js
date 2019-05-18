@@ -54,10 +54,40 @@ app.get('/auth/callback', function(req,res){
         });
 
         resdata.on('end', () => {
-            res.redirect(url.format({
-                pathname:"/profile",
-                query: JSON.parse(data)
-              }));
+
+            https.get('https://api.linkedin.com/v2/me',
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + data.access_token,
+                    'Connection': 'keep-alive'
+                }
+            }
+             ,(resp) => {
+            let profdata = '';
+
+            // A chunk of data has been recieved.
+            resp.on('data', (chunk) => {
+                profdata += chunk;
+            });
+
+            // The whole response has been received. Print out the result.
+            resp.on('end', () => {
+                //console.log(JSON.parse(data).explanation);
+                // res.redirect(url.format({
+                //     pathname:"/profile",
+                //     query: JSON.parse(profdata)
+                //   }));
+                res.json(profdata);
+            });
+
+            }).on("error", (err) => {
+            console.log("Error: " + err.message);
+            });
+            // res.redirect(url.format({
+            //     pathname:"/profile",
+            //     query: JSON.parse(data)
+            //   }));
         })
     });
 
