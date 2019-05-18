@@ -44,7 +44,8 @@ app.get('/auth/callback', function(req,res){
     var post_req = http.request(post_options, function(resdata) {
         resdata.setEncoding('utf8');
         resdata.on('data', function (chunk) {
-            // console.log('Response: ' + chunk);
+            var tok = chunk;
+            console.log('Response: ' + tok.access_token);
             // res.redirect('/profile')
             // res.json({
             //            "access_token": chunk.access_token,
@@ -53,8 +54,8 @@ app.get('/auth/callback', function(req,res){
             res.redirect(url.format({
                 pathname:"/profile",
                 query: {
-                   "access_token": chunk['access_token'],
-                   "expires_in": chunk['expires_in']
+                   "access_token": tok.access_token,
+                   "expires_in": tok.expires_in
                  }
               }));
         });
