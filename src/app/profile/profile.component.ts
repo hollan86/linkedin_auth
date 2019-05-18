@@ -23,6 +23,7 @@ export class ProfileComponent implements OnInit {
 
     fetch(url, {
       method: 'GET', // or 'PUT'
+      mode: 'no-cors',
       //body: JSON.stringify(data), // data can be `string` or {object}!
       headers:{
         'Content-Type': 'application/json',
