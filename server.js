@@ -85,7 +85,7 @@ app.get('/auth/callback', function(req,res){
             // }).on("error", (err) => {
             // console.log("Error: " + err.message);
             // });
-            res.json(data);
+            res.json(JSON.parse(data));
             // res.redirect(url.format({
             //     pathname:"/profile",
             //     query: JSON.parse(data)
