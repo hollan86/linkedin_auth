@@ -2,6 +2,7 @@
 const express = require('express');
 const path = require('path');
 var cors = require('cors')
+const url = require('url');
 
 const app = express();
 //cors allow all
@@ -40,10 +41,18 @@ app.get('/auth/callback', function(req,res){
     };
 
     // Set up the request
-    var post_req = http.request(post_options, function(res) {
-        res.setEncoding('utf8');
-        res.on('data', function (chunk) {
+    var post_req = http.request(post_options, function(resdata) {
+        resdata.setEncoding('utf8');
+        resdata.on('data', function (chunk) {
             console.log('Response: ' + chunk);
+            //res.redirect('/profile')
+            res.redirect(url.format({
+                pathname:"/profile",
+                query: {
+                   "access_token": chunk.access_token,
+                   "expires_in": chunk.expires_in
+                 }
+              }));
         });
     });
 
