@@ -55,7 +55,7 @@ app.get('/auth/callback', function(req,res){
 
         resdata.on('end', () => {
 
-            https.get('https://api.linkedin.com/v2/me',
+            http.get('https://api.linkedin.com/v2/me',
             {
                 headers: {
                     'Content-Type': 'application/json',
