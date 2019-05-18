@@ -1,23 +1,28 @@
 //Install express server
 const express = require('express');
+const path = require('path');
 const url = require('url');
 
 //Import configs
 var config = require('./config.js');
 
-
+//Parsing url
 var myurl = url.parse(config.redirect_url);
 
 const app = express();
 
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "*");
+//     next();
+//   });
 
 // Serve only the static files form the dist directory
 app.use(express.static(__dirname + '/dist/LIauth'));
 
 
-//LinkIn Oauth2 callback end-point
+// LinkedIn Oauth2 callback end-point
 app.get(myurl.pathname, function(req,res){
-    
     var querystring = require('querystring');
     var http = require('https');
  
@@ -72,12 +77,11 @@ app.get(myurl.pathname, function(req,res){
                     "expires_in": data_parsed.expires_in,
                     "profile_data": profdata
                 }
-                //Redirect to profile page with profile info
+                //Redirect to profile page with profile data
                 res.redirect(url.format({
                     pathname:"/profile",
                     query: alldata
                   }));
-                //res.json(JSON.parse(profdata));
             });
 
             }).on("error", (err) => {
@@ -86,7 +90,7 @@ app.get(myurl.pathname, function(req,res){
         })
     });
 
-    // Get access code
+    // Retrieve access token
     post_req.write(querystring.stringify(post_data));
     post_req.end();
 
