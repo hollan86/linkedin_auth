@@ -44,12 +44,12 @@ app.get('/auth/callback', function(req,res){
     var post_req = http.request(post_options, function(resdata) {
         resdata.setEncoding('utf8');
         resdata.on('data', function (chunk) {
-            //console.log('Response: ' + chunk);
-            //res.redirect('/profile')
-            res.json({
-                       "access_token": chunk.access_token,
-                       "expires_in": chunk.expires_in
-                     });
+            console.log('Response: ' + chunk);
+            res.redirect('/profile')
+            // res.json({
+            //            "access_token": chunk.access_token,
+            //            "expires_in": chunk.expires_in
+            //          });
             // res.redirect(url.format({
             //     pathname:"/profile",
             //     query: {
