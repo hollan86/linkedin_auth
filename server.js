@@ -45,7 +45,7 @@ app.get('/auth/callback', function(req,res){
         resdata.setEncoding('utf8');
         resdata.on('data', function (chunk) {
             console.log('Response: ' + chunk);
-            //res.redirect('/profile')
+            res.redirect('/profile')
             // res.redirect(url.format({
             //     pathname:"/profile",
             //     query: {
