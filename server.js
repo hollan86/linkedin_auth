@@ -46,13 +46,13 @@ app.get('/auth/callback', function(req,res){
         resdata.on('data', function (chunk) {
             console.log('Response: ' + chunk);
             //res.redirect('/profile')
-            res.redirect(url.format({
-                pathname:"/profile",
-                query: {
-                   "access_token": chunk.access_token,
-                   "expires_in": chunk.expires_in
-                 }
-              }));
+            // res.redirect(url.format({
+            //     pathname:"/profile",
+            //     query: {
+            //        "access_token": chunk.access_token,
+            //        "expires_in": chunk.expires_in
+            //      }
+            //   }));
         });
     });
 
