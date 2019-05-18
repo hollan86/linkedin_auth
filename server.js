@@ -1,37 +1,26 @@
 //Install express server
 const express = require('express');
-const path = require('path');
-var cors = require('cors')
 const url = require('url');
+
+//Import configs
 var config = require('./config.js');
 
 
 var myurl = url.parse(config.redirect_url);
 
 const app = express();
-//cors allow all
-//app.use(cors())
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "*");
-    next();
-  });
+
 
 // Serve only the static files form the dist directory
 app.use(express.static(__dirname + '/dist/LIauth'));
 
 
+//LinkIn Oauth2 callback end-point
 app.get(myurl.pathname, function(req,res){
-    console.log('Checking call back: ',req.query)
+    
     var querystring = require('querystring');
     var http = require('https');
-    //var fs = require('fs');
-
-    //var client_id = '86npi10cn6zkzn';
-    //var client_secret = 'QMh1Xq6jVbU2Y494';
-    //var code = req.query.code;
-    //console.log('Authorization code: ', req.query);
-    //var redirect_url = 'https://hollan-linkedin.herokuapp.com/auth/callback'
+ 
     var post_data = {
         'grant_type' : 'authorization_code',
         'code': req.query.code,
@@ -64,7 +53,6 @@ app.get(myurl.pathname, function(req,res){
             http.get('https://api.linkedin.com/v2/me',
             {
                 headers: {
-                    //'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + data_parsed.access_token,
                     'Connection': 'keep-alive'
                 }
@@ -84,7 +72,7 @@ app.get(myurl.pathname, function(req,res){
                     "expires_in": data_parsed.expires_in,
                     "profile_data": profdata
                 }
-                //console.log(JSON.parse(data).explanation);
+                //Redirect to profile page with profile info
                 res.redirect(url.format({
                     pathname:"/profile",
                     query: alldata
@@ -98,7 +86,7 @@ app.get(myurl.pathname, function(req,res){
         })
     });
 
-    // post the data
+    // Get access code
     post_req.write(querystring.stringify(post_data));
     post_req.end();
 

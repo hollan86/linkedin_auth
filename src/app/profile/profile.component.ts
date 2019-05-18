@@ -21,22 +21,6 @@ export class ProfileComponent implements OnInit {
       console.log(this.all_data);
       
     })
-
-    /*
-    var url = 'https://api.linkedin.com/v2/me';
-    //var data = {username: 'example'};
-
-    fetch(url, {
-      method: 'GET', // or 'PUT'
-      //body: JSON.stringify(data), // data can be `string` or {object}!
-      headers:{
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + this.token,
-        'Connection': 'keep-alive'
-      }
-    }).then(res => res.json())
-    .then(response => console.log('Success:',JSON.stringify(response)))
-    .catch(error => console.error('Error:', error));*/
   }
 
 }
