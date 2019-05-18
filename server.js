@@ -54,7 +54,7 @@ app.get('/auth/callback', function(req,res){
         });
 
         resdata.on('end', () => {
-
+            console.log('Data: ',data)
             http.get('https://api.linkedin.com/v2/me',
             {
                 headers: {
