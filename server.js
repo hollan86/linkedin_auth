@@ -42,23 +42,18 @@ app.get('/auth/callback', function(req,res){
 
     // Set up the request
     var post_req = http.request(post_options, function(resdata) {
+        var data = '';
         resdata.setEncoding('utf8');
         resdata.on('data', function (chunk) {
-            var tok = Object(chunk)
-            console.log('Response: ' + tok);
-            // res.redirect('/profile')
-            // res.json({
-            //            "access_token": chunk.access_token,
-            //            "expires_in": chunk.expires_in
-            //          });
+            data += chunk;
+        });
+
+        resdata.on('end', () => {
             res.redirect(url.format({
                 pathname:"/profile",
-                query: {
-                    "access_token": tok.access_token,
-                    "expires_in": tok.expires_in
-                }
+                query: JSON.parse(data)
               }));
-        });
+        })
     });
 
     // post the data
