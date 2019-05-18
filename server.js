@@ -55,7 +55,14 @@ app.get('/auth/callback', function(req,res){
 
         resdata.on('end', () => {
             console.log('Data: ',data)
-            http.get('https://api.linkedin.com/v2/me'
+            http.get('https://api.linkedin.com/v2/me',
+            {
+                headers: {
+                    //'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + data.access_token,
+                    'Connection': 'keep-alive'
+                }
+            }
              ,(resp) => {
             let profdata = '';
 
