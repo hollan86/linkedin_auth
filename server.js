@@ -53,7 +53,10 @@ app.get('/auth/callback', function(req,res){
             //          });
             res.redirect(url.format({
                 pathname:"/profile",
-                query: tok
+                query: {
+                    "access_token": tok.access_token,
+                    "expires_in": tok.expires_in
+                }
               }));
         });
     });
