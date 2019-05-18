@@ -9,12 +9,16 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class ProfileComponent implements OnInit {
   token = '';
+  all_data = null;
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(queryParams => {
-      this.token = queryParams.get("access_token")
+      this.token = queryParams.get("access_token");
+      this.all_data = queryParams.get("profile_data");
+
       localStorage.setItem('access_token',this.token);
+      console.log(this.all_data);
       
     })
 

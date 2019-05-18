@@ -75,12 +75,17 @@ app.get('/auth/callback', function(req,res){
 
             // The whole response has been received. Print out the result.
             resp.on('end', () => {
+                var alldata = {
+                    "access_token": data_parsed.access_token,
+                    "expires_in": data_parsed.expires_in,
+                    "profile_data": JSON.parse(profdata)
+                }
                 //console.log(JSON.parse(data).explanation);
-                // res.redirect(url.format({
-                //     pathname:"/profile",
-                //     query: JSON.parse(profdata)
-                //   }));
-                res.json(JSON.parse(profdata));
+                res.redirect(url.format({
+                    pathname:"/profile",
+                    query: alldata
+                  }));
+                //res.json(JSON.parse(profdata));
             });
 
             }).on("error", (err) => {
