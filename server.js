@@ -18,84 +18,88 @@ app.use(express.static(__dirname + '/dist/LIauth'));
 
 
 app.get('/auth/callback', function(req,res){
-    var querystring = require('querystring');
-    var http = require('https');
-    //var fs = require('fs');
+    console.log('Checking call back: ',req)
+    if ("code" in req){
+        var querystring = require('querystring');
+        var http = require('https');
+        //var fs = require('fs');
 
-    var client_id = '86npi10cn6zkzn';
-    var client_secret = 'QMh1Xq6jVbU2Y494';
-    //var code = req.query.code;
-    //console.log('Authorization code: ', req.query);
-    var redirect_url = 'https://hollan-linkedin.herokuapp.com/auth/callback'
-    var post_data = {
-        'grant_type' : 'authorization_code',
-        'code': req.query.code,
-        'redirect_uri': redirect_url,
-          'client_id' : client_id,
-          'client_secret' : client_secret
-    }
-
-    var post_options = {
-        host: 'www.linkedin.com',
-        path: '/oauth/v2/accessToken',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': Buffer.byteLength(querystring.stringify(post_data))
+        var client_id = '86npi10cn6zkzn';
+        var client_secret = 'QMh1Xq6jVbU2Y494';
+        //var code = req.query.code;
+        //console.log('Authorization code: ', req.query);
+        var redirect_url = 'https://hollan-linkedin.herokuapp.com/auth/callback'
+        var post_data = {
+            'grant_type' : 'authorization_code',
+            'code': req.query.code,
+            'redirect_uri': redirect_url,
+            'client_id' : client_id,
+            'client_secret' : client_secret
         }
-    };
 
-    // Set up the request
-    var post_req = http.request(post_options, function(resdata) {
-        var data = '';
-        resdata.setEncoding('utf8');
-        resdata.on('data', function (chunk) {
-            data += chunk;
-        });
-
-        resdata.on('end', () => {
-            console.log('Data: ',data)
-            http.get('https://api.linkedin.com/v2/me',
-            {
-                headers: {
-                    //'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + data.access_token,
-                    'Connection': 'keep-alive'
-                }
+        var post_options = {
+            host: 'www.linkedin.com',
+            path: '/oauth/v2/accessToken',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Length': Buffer.byteLength(querystring.stringify(post_data))
             }
-             ,(resp) => {
-            let profdata = '';
+        };
 
-            // A chunk of data has been recieved.
-            resp.on('data', (chunk) => {
-                profdata += chunk;
+        // Set up the request
+        var post_req = http.request(post_options, function(resdata) {
+            var data = '';
+            resdata.setEncoding('utf8');
+            resdata.on('data', function (chunk) {
+                data += chunk;
             });
 
-            // The whole response has been received. Print out the result.
-            resp.on('end', () => {
-                //console.log(JSON.parse(data).explanation);
+            resdata.on('end', () => {
+                console.log('Data: ',data)
+                http.get('https://api.linkedin.com/v2/me',
+                {
+                    headers: {
+                        //'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + data.access_token,
+                        'Connection': 'keep-alive'
+                    }
+                }
+                ,(resp) => {
+                let profdata = '';
+
+                // A chunk of data has been recieved.
+                resp.on('data', (chunk) => {
+                    profdata += chunk;
+                });
+
+                // The whole response has been received. Print out the result.
+                resp.on('end', () => {
+                    //console.log(JSON.parse(data).explanation);
+                    // res.redirect(url.format({
+                    //     pathname:"/profile",
+                    //     query: JSON.parse(profdata)
+                    //   }));
+                    res.json(profdata);
+                });
+
+                }).on("error", (err) => {
+                console.log("Error: " + err.message);
+                });
                 // res.redirect(url.format({
                 //     pathname:"/profile",
-                //     query: JSON.parse(profdata)
+                //     query: JSON.parse(data)
                 //   }));
-                res.json(profdata);
-            });
+            })
+        });
 
-            }).on("error", (err) => {
-            console.log("Error: " + err.message);
-            });
-            // res.redirect(url.format({
-            //     pathname:"/profile",
-            //     query: JSON.parse(data)
-            //   }));
-        })
-    });
-
-    // post the data
-    post_req.write(querystring.stringify(post_data));
-    post_req.end();
+        // post the data
+        post_req.write(querystring.stringify(post_data));
+        post_req.end();
 
 
+    }
+    
 })
 
 // app.get('/access/callback', function(req,res){
