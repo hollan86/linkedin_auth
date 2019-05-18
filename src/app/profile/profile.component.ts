@@ -30,8 +30,8 @@ export class ProfileComponent implements OnInit {
         'Authorization': 'Bearer ' + this.token,
         'Connection': 'keep-alive'
       }
-    }).then(res => res.text())
-    .then(response => console.log('Success:', JSON.stringify(response)))
+    }).then(res => {return res.text()})
+    .then(response => console.log('Success:',response /*JSON.stringify(response)*/))
     .catch(error => console.error('Error:', error));
   }
 
