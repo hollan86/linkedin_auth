@@ -18,8 +18,8 @@ app.use(express.static(__dirname + '/dist/LIauth'));
 
 
 app.get('/auth/callback', function(req,res){
-    console.log('Checking call back: ',req)
-    if ("code" in req){
+    console.log('Checking call back: ',req.query)
+    if ("code" in req.query){
         var querystring = require('querystring');
         var http = require('https');
         //var fs = require('fs');
