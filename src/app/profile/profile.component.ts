@@ -12,10 +12,10 @@ export class ProfileComponent implements OnInit {
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
-    // this.route.queryParamMap.subscribe(queryParams => {
-    //   var token = queryParams.get("access_token")
-    //   localStorage.setItem('access_token',token);
-    // })
+    this.route.queryParamMap.subscribe(queryParams => {
+      var token = queryParams.get("access_token")
+      localStorage.setItem('access_token',token);
+    })
   }
 
 }
