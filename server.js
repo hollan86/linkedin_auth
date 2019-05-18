@@ -101,10 +101,6 @@ app.get('/auth/callback', function(req,res){
 
 })
 
-// app.get('/access/callback', function(req,res){
-//     console.log('access tokens: ',req.body);
-// });
-
 app.get('/*', function(req,res) {
     
     res.sendFile(path.join(__dirname+'/dist/LIauth/index.html'));
